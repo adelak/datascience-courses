@@ -40,16 +40,19 @@ def get_FilteredDataFrame(p_data):
 def get_Frequency(p_df):
     # средний интервал появления новостей в часах
     l_avg_interval=float(pd.Timedelta(p_df.date.max()-p_df.date.min()).seconds)/p_df.name.count()/60/60
+    #print p_df.date.max()
+    #print p_df.date.min()
+    #print p_df.name.count()
     # частота
     l_fq=1/l_avg_interval
     return l_fq
 
 # url выбранного источника новостей
 SOURCE_URL='http://www.atpworldtour.com/en/news/news-filter-results/news-filter-results-ajax/all/on-court/all/all/all/?page=5&requestedPage='
-# одной страницы новостей для анализа мало, выгрузим 10
+# одной страницы новостей для анализа мало, выгрузим 8
 # интервал выгружаемых страниц
 PAGE_START=1 # первая страница интервала
-PAGE_END=3 # последняя страница интервала
+PAGE_END=8 # последняя страница интервала
 # получим данные(пример структуры данных в data_example.html)
 soup=get_Data(SOURCE_URL,PAGE_START,PAGE_END)
 # отфильтруем лишнее, нас интересует только содержимое атрибута data-src в div class="lazy-loader"
@@ -60,3 +63,6 @@ df=get_FilteredDataFrame(data)
 frequency=get_Frequency(df)
 print frequency
 # результат 0.975987606507
+# макс дата 2017-03-05 19:29:00
+# мин дата 2017-02-17 23:16:00
+# всего новостей 73
