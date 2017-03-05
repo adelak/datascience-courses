@@ -40,6 +40,7 @@ def get_FilteredDataFrame(p_data):
 def get_Frequency(p_df):
     # средний интервал появления новостей в часах
     l_avg_interval=float(pd.Timedelta(p_df.date.max()-p_df.date.min()).seconds)/p_df.name.count()/60/60
+    # частота
     l_fq=1/l_avg_interval
     return l_fq
 
@@ -59,20 +60,3 @@ df=get_FilteredDataFrame(data)
 frequency=get_Frequency(df)
 print frequency
 # результат 0.975987606507
-
-#df['index']=df.index
-#df.set_index(['date'],inplace=True)
-#df.groupby(pd.TimeGrouper('6M', closed = 'left')).aggregate(numpy.sum)
-#df.TimeGrouper()
-#df.plot.bar(pd.TimeGrouper(''))
-#df.plot()
-#plt.show()
-
-
-
-#print df.head
-
-
-
-
-#print soup.prettify()
