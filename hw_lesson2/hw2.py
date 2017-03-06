@@ -29,6 +29,8 @@ def get_FilteredDataFrame(p_data):
     l_df.columns=['type','year','month','day','hour','minute','name']
     # удалим лишние строки, нас интересуют только news
     l_df=l_df[l_df.type=='news']
+    # удалим неправильные данные(есть строки, что не содержат года)
+    l_df=l_df[l_df.year.str.isdigit()]
     # уменьшим названия, оставим только часть до точки
     l_df['name']=l_df.name.apply(lambda x: x.split('.')[0])
     # добавим новую колонку дата и преобразуем в нее год-месяц-день-часы-минуты
@@ -39,7 +41,8 @@ def get_FilteredDataFrame(p_data):
 
 def get_Frequency(p_df):
     # средний интервал появления новостей в часах
-    l_avg_interval=float(pd.Timedelta(p_df.date.max()-p_df.date.min()).seconds)/p_df.name.count()/60/60
+    l_avg_interval=float(pd.Timedelta(p_df.date.max()-p_df.date.min()).total_seconds())/p_df.name.count()/60/60
+    #print pd.Timedelta(p_df.date.max()-p_df.date.min()).total_seconds()/60/60
     #print p_df.date.max()
     #print p_df.date.min()
     #print p_df.name.count()
@@ -49,10 +52,10 @@ def get_Frequency(p_df):
 
 # url выбранного источника новостей
 SOURCE_URL='http://www.atpworldtour.com/en/news/news-filter-results/news-filter-results-ajax/all/on-court/all/all/all/?page=5&requestedPage='
-# одной страницы новостей для анализа мало, выгрузим 8
+# одной страницы новостей для анализа мало, выгрузим 30
 # интервал выгружаемых страниц
 PAGE_START=1 # первая страница интервала
-PAGE_END=8 # последняя страница интервала
+PAGE_END=50 # последняя страница интервала
 # получим данные(пример структуры данных в data_example.html)
 soup=get_Data(SOURCE_URL,PAGE_START,PAGE_END)
 # отфильтруем лишнее, нас интересует только содержимое атрибута data-src в div class="lazy-loader"
@@ -62,4 +65,9 @@ df=get_FilteredDataFrame(data)
 # расчитаем частоту появления новостей(в час)
 frequency=get_Frequency(df)
 print frequency
-# результат 3.61088211047
+# результат 0.129322489153
+# мин дата 2016-10-09 01:34:00
+# макс дата 2017-03-05 22:50:00
+# всего новостей 459
+
+#df.to_csv('source.tsv', sep='\t', encoding='utf-8', index=False)
