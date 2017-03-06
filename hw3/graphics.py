@@ -17,6 +17,7 @@ df['date_timestamp']= pd.to_numeric(df['date']).apply(lambda x:x/float(10**9))
 df['date_timestamp']=df['date_timestamp']-df['date_timestamp'].min()
 sns.regplot(x='date_timestamp', y='index', data=df)
 plt.show()
+# графики можно посмотреть в папке results
 # Выводы
 # 1) наочно видно, что в период зимнего перерыва(декабрь) идет сильный спад публикации новостей
 # объяснить это легко, тогда нет официальных турниров
