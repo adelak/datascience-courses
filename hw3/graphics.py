@@ -3,13 +3,13 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
 df = pd.read_csv('D:\RepositoryStudy\datascienceua_tasks\hw3\source.tsv', sep='\t',parse_dates=['date'])
-# посмотри распределение по часам дня, увидим когда чаще всего выкладываются новоости
+# распределение по часам дня, когда чаще всего выкладываются новоости
 df.date.dt.hour.value_counts().sort_index(ascending=True).plot.bar()
 plt.show()
-# посмотри распределение по неделям года, увидим в какие недели было больше/меньше новостей
+# распределение по неделям года, в какие недели было больше/меньше новостей
 df.date.dt.week.value_counts().sort_index(ascending=True).plot.bar()
 plt.show()
-# посмотри распределение по месяцам года, увидим в какие месяцы было больше/меньше новостей
+# распределение по месяцам года, в какие месяцы было больше/меньше новостей
 df.date.dt.month.value_counts().sort_index(ascending=True).plot.bar()
 plt.show()
 df['index']=df.date.sort(ascending=True, inplace=False).index
