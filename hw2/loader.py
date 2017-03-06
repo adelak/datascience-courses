@@ -4,7 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from matplotlib import pyplot as plt
 
-def get_Data(p_url, p_pagestart, p_pageend):
+def get_DataHTML(p_url, p_pagestart, p_pageend):
     l_data=''
     # выгрузим страницы новостей в интервале [p_pagesstart,p_pagesend]
     for i_page in range(p_pagestart,p_pageend):
@@ -12,7 +12,7 @@ def get_Data(p_url, p_pagestart, p_pageend):
         l_data += response.content
     return BeautifulSoup(l_data, "html5lib")
 
-def parse_Data(p_data):
+def get_DataList(p_data):
     l_divs=p_data.findAll('div',attrs={'class','lazy-loader'})
     l_newsamount=len(l_divs)
     l_data=[l_newsamount]
@@ -21,7 +21,7 @@ def parse_Data(p_data):
         l_data[i_newsnote]=[str(cell) for cell in l_divs[i_newsnote]['data-src'].split('/')]
     return l_data
 
-def get_FilteredDataFrame(p_data):
+def get_DataFrame(p_data):
     l_df=pd.DataFrame(p_data)
     # удалим лишние колонки
     l_df.drop(l_df.columns[[0,1,2,3]], axis=1, inplace=True)
@@ -57,11 +57,11 @@ SOURCE_URL='http://www.atpworldtour.com/en/news/news-filter-results/news-filter-
 PAGE_START=1 # первая страница интервала
 PAGE_END=50 # последняя страница интервала
 # получим данные(пример структуры данных в data_example.html)
-soup=get_Data(SOURCE_URL,PAGE_START,PAGE_END)
+soup=get_DataHTML(SOURCE_URL,PAGE_START,PAGE_END)
 # отфильтруем лишнее, нас интересует только содержимое атрибута data-src в div class="lazy-loader"
-data=parse_Data(soup)
+data=get_DataList(soup)
 # загрузим данные в dataframe и преобразуем/отфильтруем лишнее
-df=get_FilteredDataFrame(data)
+df=get_DataFrame(data)
 # расчитаем частоту появления новостей(в час)
 frequency=get_Frequency(df)
 print frequency

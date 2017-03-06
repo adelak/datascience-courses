@@ -2,7 +2,7 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
-df = pd.read_csv('D:\RepositoryStudy\datascienceua_tasks\hw3\source.tsv', sep='\t',parse_dates=['date'])
+df = pd.read_csv('source.tsv', sep='\t',parse_dates=['date'])
 # распределение по часам дня, когда чаще всего выкладываются новоости
 df.date.dt.hour.value_counts().sort_index(ascending=True).plot.bar()
 plt.show()
