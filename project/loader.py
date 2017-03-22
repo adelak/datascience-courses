@@ -1,5 +1,6 @@
 # coding=utf-8
 import requests
+import urllib
 import pandas as pd
 from bs4 import BeautifulSoup
 import pprint
@@ -15,15 +16,26 @@ soup = BeautifulSoup(htmldata, "html5lib")
 links=[]
 for tag_a in soup.findAll('a',attrs={"href" : re.compile("^20")}):
     links.append(tag_a['href'])
-
 #print pp.pprint(tags_a)
 l_df=pd.DataFrame(links)
 l_df.columns=['link']
-l_df['date']=l_df['link'].str.rsplit('-',6)
-#l_df['gender']=l_df['link'].str.rsplit('-',5)
-#l_df['tour']=l_df['link'].str.rsplit('-',4)
-#l_df['stage']=l_df['link'].str.rsplit('-',3)
-#l_df['player1']=l_df['link'].str.rsplit('-')[2]
-#l_df['player2']=l_df['link'].str.rsplit('-')[1]
-print l_df
+valueslist=l_df['link'].str.replace('.html','')
+values=valueslist.str.split('-')
+tvalues=zip(*values)
+l_df['date']=pd.to_datetime(tvalues[0])
+l_df['gender']=tvalues[1]
+l_df['tournament']=tvalues[2]
+l_df['stage']=tvalues[3]
+l_df['player1']=tvalues[4]
+l_df['player2']=tvalues[5]
+#print pp.pprint(zip(*values))
+#print l_df
+url='http://tennisabstract.com/charting/'+l_df['link'][1]
+response = requests.get(url)
+l_data = response.content
+soup2 = BeautifulSoup(l_data, "html5lib")
+data=[]
+for tag_span in soup2.findAll('table'):
+    data.append(tag_span)
+print pp.pprint(data)
 #print soup.prettify().encode('UTF-8')
