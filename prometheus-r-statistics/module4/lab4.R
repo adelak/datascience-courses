@@ -18,4 +18,11 @@ cor.test(anscombe$x2, anscombe$y2)
 cor.test(anscombe$x3, anscombe$y3)
 cor.test(anscombe$x4, anscombe$y4)
 
-str(diamonds)
+# линейная модель 
+lm(anscombe$x1, anscombe$y1)
+summary(anscombe)
+
+data("diamonds")
+View(diamonds)
+
+cor.test(diamonds$price, diamonds$carat)
