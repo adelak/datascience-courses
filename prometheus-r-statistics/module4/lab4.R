@@ -19,10 +19,38 @@ cor.test(anscombe$x3, anscombe$y3)
 cor.test(anscombe$x4, anscombe$y4)
 
 # линейная модель 
-lm(anscombe$x1, anscombe$y1)
-summary(anscombe)
+fit <- lm(y4 ~ x4, data=anscombe)
+summary(fit) # show results
+# уравнение лин регрессии получится
+# y=0.5x+3
 
-data("diamonds")
-View(diamonds)
 
-cor.test(diamonds$price, diamonds$carat)
+diamonds
+fit2 <- lm(price~carat, data=diamonds)
+summary(fit2) # show results
+
+ggplot(data=diamonds, aes(x=carat, y=price)) +
+  geom_point(col="lightblue") +
+  geom_smooth(method="lm", se=FALSE) +
+  facet_wrap(~cut)
+
+# построим модель lin.diamond.ideal для поиска цены
+# для идеально обработанного диаманта весом 1 карат
+price.ideal <- diamonds$price[diamonds$cut == "Ideal"]
+carat.ideal <- diamonds$carat[diamonds$cut == "Ideal"]
+
+lin.diamond.ideal <- lm(price.ideal ~ carat.ideal, data=diamonds)
+summary(lin.diamond.ideal)
+# y = a * x + b, 
+# где a = -2300.37, x=1(карат), b=8192.39
+
+# построим модель lin.diamond.fair для поиска цены
+# для приемлемо обработанного диаманта весом 1 карат
+price.ideal <- diamonds$price[diamonds$cut == "Fair"]
+carat.ideal <- diamonds$carat[diamonds$cut == "Fair"]
+
+lin.diamond.fair <- lm(price.ideal ~ carat.ideal, data=diamonds)
+summary(lin.diamond.fair)
+# y = a * x + b, 
+# где a = -1839.07, x=1(карат), b=5924.50
+# имеем y=4085.43
