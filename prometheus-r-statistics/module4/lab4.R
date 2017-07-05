@@ -1,3 +1,6 @@
+# вычисли уравнения лин регрессии для датасетов anscombe,diamonds
+# построим ленейную модель для поиска цен 
+# приемлемо обработанного диаманта/идеально обработанного диаманта
 library(ggplot2)
 
 ggplot(data.frame(x = c(-263,263)), aes(x)) +
@@ -20,10 +23,9 @@ cor.test(anscombe$x4, anscombe$y4)
 
 # линейная модель 
 fit <- lm(y4 ~ x4, data=anscombe)
-summary(fit) # show results
+summary(fit) 
 # уравнение лин регрессии получится
 # y=0.5x+3
-
 
 diamonds
 fit2 <- lm(price~carat, data=diamonds)
@@ -43,6 +45,7 @@ lin.diamond.ideal <- lm(price.ideal ~ carat.ideal, data=diamonds)
 summary(lin.diamond.ideal)
 # y = a * x + b, 
 # где a = -2300.37, x=1(карат), b=8192.39
+# имеем y=5832,02
 
 # построим модель lin.diamond.fair для поиска цены
 # для приемлемо обработанного диаманта весом 1 карат

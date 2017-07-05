@@ -1,3 +1,5 @@
+# проверим есть ли линейная зависимость между кол-вом погибших и рейтингом
+# для датасета filmdeathcounts
 install.packages("dplyr");
 install.packages("ggplot2");
 install.packages("proto")

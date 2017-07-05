@@ -1,3 +1,6 @@
+# расчитаем для датасета crimes следующие характеристики
+# * кол-во степеней свободы для выборки, что содержит кол-во преступлений совершенных по пт
+# * p-value
 library(lubridate)
 library(dplyr)
 library(ggplot2)
@@ -38,3 +41,5 @@ options(scipen=999)
 # расчитаем p-value
 p_value2 <- 2*pt(33.883, df=39, lower.tail = FALSE)
 p_value2
+
+pnorm(-1.31)
